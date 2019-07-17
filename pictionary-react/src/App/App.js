@@ -99,7 +99,7 @@ class App extends React.Component {
           {this.state.isLoggedIn ? <Route path="/" exact render={(props) => <Login handleLogin={this.handleLogin} isLoggedIn={this.state.isLoggedIn} {...props} />} />: 
           <Route path="/" exact render={(props) => <Redirect to="/room" {...props}/> } />}
           <Route path="/" exact redirect={(props) => <Redirect to="/login" {...props}/> } />
-          <Route path="/room" component={Canvas} />
+          <Route path="/room" render={(props) => <Canvas username={this.state.username} {...props}/>} />
           <Route path="/signup" render={(props) => <Singup handleSignup={this.handleSignup} {...props} />}  />
           <Route path="/login" render={(props) => <Login handleLogin={this.handleLogin} {...props} />}  />
         </Switch>

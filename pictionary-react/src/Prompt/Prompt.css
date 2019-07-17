@@ -1,0 +1,6 @@
+.guesser-prompt {
+    z-index: 500;
+    position: absolute;
+    bottom: 0;
+    right: 0
+}

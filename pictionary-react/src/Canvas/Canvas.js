@@ -10,7 +10,6 @@ export default class Canvas extends Component {
   constructor() {
     super()
     this.state = {
-      username: "",
       isDrawing: false,
       ctx: null,
       currentX: null, 
@@ -20,15 +19,19 @@ export default class Canvas extends Component {
 
     this.canvas = React.createRef();
 
-    socket.on('joined', (joined, id) => {
-      // sessionStorage.id = id;
-      // this.setState({
-      //     connected: joined
-      // })
-    })
+    
 
     socket.on('left', left => {
         // this.setState({connected: left})
+    })
+
+    socket.on('start', data => {
+      console.log(data)
+      if(data !== this.props.username) {
+        this.setState({
+          drawer: false
+        })
+      }
     })
 
     socket.on("drawing", data => {
@@ -52,6 +55,7 @@ export default class Canvas extends Component {
     this.setState({
       canvas: this.canvas.current
     });
+
     this.canvas.current.style.height = window.innerHeight;
     this.canvas.current.style.width = window.innerWidth;
 
@@ -83,6 +87,23 @@ export default class Canvas extends Component {
     this.canvas.current.addEventListener("touchend", this.onMouseUp, false);
 
     window.addEventListener("resize", this.onResize);
+
+    if(sessionStorage.username) {
+        socket.emit("join", {
+        username: this.props.username,
+        room: this.props.room
+      });
+    }
+    
+  }
+
+  componentDidUpdate() {
+    if(!this.state.drawer) {
+      this.canvas.current.removeEventListener('mouseup', this.onMouseUp)
+      this.canvas.current.removeEventListener('mousedown', this.onMouseDown)
+      this.canvas.current.removeEventListener('mousemove', this.onMouseMove)
+    }
+    
   }
 
   drawLine = (x0, y0, x1, y1, color, emit, force) => {
@@ -205,12 +226,16 @@ export default class Canvas extends Component {
       offsetHeight = 0;
     }
     return (
-      <canvas
-        width={window.innerWidth}
-        height={window.innerHeight-offsetHeight}
-        className="canvas"
-        ref={this.canvas}
-      />
+      <div className="canvas-container">
+        <canvas
+          width={window.innerWidth}
+          height={window.innerHeight-offsetHeight}
+          className="canvas"
+          ref={this.canvas}
+        />
+        {this.state.drawer ? "" : <Prompt />}
+      </div>
+      
 	  );
   }
 	
