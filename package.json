@@ -1,24 +1,36 @@
 {
-  "name": "pictionary",
-  "version": "1.0.0",
-  "description": "",
+  "name": "pictionary-react",
+  "version": "0.1.0",
+  "private": true,
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.19.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
     "socket.io-client": "^2.2.0"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+    
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ismailshak/pictionary.git"
+  "eslintConfig": {
+    "extends": "react-app"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ismailshak/pictionary/issues"
-  },
-  "homepage": "https://github.com/ismailshak/pictionary#readme"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
-import Prompt from '../Prompt/Prompt'
+import Prompt from '../Prompt/Prompt';
+import './Canvas.css'
 
 const socket = io('localhost:8080');
-
-
 
 export default class Canvas extends Component {
   constructor() {
@@ -15,6 +14,8 @@ export default class Canvas extends Component {
       currentX: null, 
       currentY: null,
       drawer: true,
+      word: "",
+      winner: null
     }
 
     this.canvas = React.createRef();
@@ -26,10 +27,15 @@ export default class Canvas extends Component {
     })
 
     socket.on('start', data => {
-      console.log(data)
-      if(data !== this.props.username) {
+      console.log(data.drawer, data.word)
+      if(data.drawer !== this.props.username) {
         this.setState({
-          drawer: false
+          drawer: false,
+          word: data.word,
+        })
+      } else {
+        this.setState({
+          word: data.word
         })
       }
     })
@@ -48,6 +54,14 @@ export default class Canvas extends Component {
         );
       }
     });
+
+    socket.on('winner', data => {
+      console.log("the winner is " + data.winner + " the word was " + data.word)
+      this.setState({
+        winner: data.winner,
+      })
+
+    })
   }
 	
 
@@ -94,7 +108,7 @@ export default class Canvas extends Component {
         room: this.props.room
       });
     }
-    
+
   }
 
   componentDidUpdate() {
@@ -102,8 +116,21 @@ export default class Canvas extends Component {
       this.canvas.current.removeEventListener('mouseup', this.onMouseUp)
       this.canvas.current.removeEventListener('mousedown', this.onMouseDown)
       this.canvas.current.removeEventListener('mousemove', this.onMouseMove)
+    } else {
+      // this.canvas.current.addEventListener('mouseup', this.onMouseUp, false)
+      // this.canvas.current.addEventListener('mousedown', this.onMouseDown, false)
+      // this.canvas.current.addEventListener(
+      //   "mousemove",
+      //   this.throttle(this.onMouseMove, 5),
+      //   false
+      // )
     }
     
+  }
+
+  shouldComponentUpdate(nextProp, nextState) {
+    // if drawer is the same
+    return this.state.drawer !== nextState.drawer;
   }
 
   drawLine = (x0, y0, x1, y1, color, emit, force) => {
@@ -217,23 +244,35 @@ export default class Canvas extends Component {
     };
   };
 
+
+  handleGuess = (str) => {
+    if(str === this.state.word) {
+      console.log("correct")
+      socket.emit('correct', this.state.word)
+    } else {
+      console.log("incorrect")
+    }
+  }
+
   render() {
-    let offsetHeight = 0;
+    
+    let offset = 0;
     const nav = document.querySelector('.navbar-container')
     if(nav) {
-      offsetHeight = document.querySelector('.navbar-container').offsetHeight+10;
+      offset = document.querySelector('.navbar-container').offsetHeight+50;
     } else {
-      offsetHeight = 0;
+      offset = 0;
     }
     return (
       <div className="canvas-container">
         <canvas
           width={window.innerWidth}
-          height={window.innerHeight-offsetHeight}
+          height={window.innerHeight-offset}
           className="canvas"
           ref={this.canvas}
         />
-        {this.state.drawer ? "" : <Prompt />}
+        {this.state.drawer ? "" : <Prompt word={this.state.word} handleGuess={this.handleGuess}/>}
+        {this.state.winner ? <span className="winner-message">{this.state.winner+"'s the winner! The word was " + this.state.word}</span>: ""}
       </div>
       
 	  );
