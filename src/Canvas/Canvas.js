@@ -14,37 +14,50 @@ export default class Canvas extends Component {
       currentX: null, 
       currentY: null,
       drawer: true,
+      winner: "",
       word: "",
-      winner: null
+      room: null,
+      username: "",
+      over: false,
     }
 
     this.canvas = React.createRef();
 
     
+    const nav = document.querySelector('.navbar-container');
+    if(nav) {
+      this.offset = nav.offsetHeight;
+    } else {
+      this.offset = 0;
+    }
 
     socket.on('left', left => {
         // this.setState({connected: left})
     })
 
     socket.on('start', data => {
-      console.log(data.drawer, data.word)
-      if(data.drawer !== this.props.username) {
-        this.setState({
-          drawer: false,
-          word: data.word,
-        })
-      } else {
-        this.setState({
-          word: data.word
-        })
-      }
-    })
+      console.log('start')
+      if(data.room === this.state.room) {
+        console.log(data)
+        if(data.drawer !== this.props.username) {
+          this.setState({
+            drawer: false,
+            word: data.word,
+          })
+        } else {
+            this.setState({
+              word: data.word
+            })
+          }
+        }
+      })
+      
 
     socket.on("drawing", data => {
       let w = window.innerWidth;
       let h = window.innerHeight;
-
-      if (!isNaN(data.x0 / w) && !isNaN(data.y0)) {
+      // console.log('drawing')
+      if (!isNaN(data.x0 / w) && !isNaN(data.y0) && data.room === this.state.room) {
         this.drawLine(
           data.x0 * w,
           data.y0 * h,
@@ -55,19 +68,16 @@ export default class Canvas extends Component {
       }
     });
 
-    socket.on('winner', data => {
-      console.log("the winner is " + data.winner + " the word was " + data.word)
-      this.setState({
-        winner: data.winner,
-      })
-
-    })
+    
   }
 	
 
 	componentDidMount() {
+
     this.setState({
-      canvas: this.canvas.current
+      canvas: this.canvas.current,
+      room: this.props.room,
+      username: this.props.username,
     });
 
     this.canvas.current.style.height = window.innerHeight;
@@ -102,12 +112,7 @@ export default class Canvas extends Component {
 
     window.addEventListener("resize", this.onResize);
 
-    if(sessionStorage.username) {
-        socket.emit("join", {
-        username: this.props.username,
-        room: this.props.room
-      });
-    }
+    
 
   }
 
@@ -134,10 +139,11 @@ export default class Canvas extends Component {
   }
 
   drawLine = (x0, y0, x1, y1, color, emit, force) => {
+
     let context = this.state.canvas.getContext("2d");
     context.beginPath();
-    context.moveTo(x0, y0-68);
-    context.lineTo(x1, y1-68);
+    context.moveTo(x0, y0-this.offset);
+    context.lineTo(x1, y1-this.offset);
     context.strokeStyle = color;
     context.lineWidth = 2;
     // if (force) {
@@ -151,23 +157,24 @@ export default class Canvas extends Component {
     }
     var w = window.innerWidth;
     var h = window.innerHeight;
-    this.setState(() => {
-      if (!isNaN(x0 / w)) {
-        socket.emit("drawing", {
-          x0: x0 / w,
-          y0: y0 / h,
-          x1: x1 / w,
-          y1: y1 / h,
-          color: color,
-          room: this.state.room,
-          force: force
-        });
+    if (!isNaN(x0 / w)) {
+      socket.emit("drawing", {
+        x0: x0 / w,
+        y0: y0 / h,
+        x1: x1 / w,
+        y1: y1 / h,
+        color: color,
+        room: this.state.room,
+        force: force
+      })};
+    // this.setState(() => {
+      
 
-        return {
-          cleared: false
-        };
-      }
-    });
+    //     return {
+    //       cleared: false
+    //     };
+    //   }
+    // });
   };
 
   onMouseDown = e => {
@@ -248,7 +255,7 @@ export default class Canvas extends Component {
   handleGuess = (str) => {
     if(str === this.state.word) {
       console.log("correct")
-      socket.emit('correct', this.state.word)
+      socket.emit('correct', {word: this.state.word, winner: this.state.username})
     } else {
       console.log("incorrect")
     }
@@ -256,23 +263,16 @@ export default class Canvas extends Component {
 
   render() {
     
-    let offset = 0;
-    const nav = document.querySelector('.navbar-container')
-    if(nav) {
-      offset = document.querySelector('.navbar-container').offsetHeight+50;
-    } else {
-      offset = 0;
-    }
+    
     return (
       <div className="canvas-container">
         <canvas
           width={window.innerWidth}
-          height={window.innerHeight-offset}
+          height={window.innerHeight-this.offset}
           className="canvas"
           ref={this.canvas}
         />
         {this.state.drawer ? "" : <Prompt word={this.state.word} handleGuess={this.handleGuess}/>}
-        {this.state.winner ? <span className="winner-message">{this.state.winner+"'s the winner! The word was " + this.state.word}</span>: ""}
       </div>
       
 	  );

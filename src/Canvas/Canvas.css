@@ -2,9 +2,3 @@
     position: relative;
 }
 
-.winner-message {
-    position: absolute;
-    z-index: 500;
-    top: 50%;
-    left: 0;
-}

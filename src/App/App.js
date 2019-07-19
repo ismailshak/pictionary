@@ -2,7 +2,9 @@ import React from 'react';
 import {Link, Route, Switch, Redirect} from 'react-router-dom'
 import axios from 'axios'
 import './App.css';
-import Canvas from '../Canvas/Canvas'
+// import Canvas from '../Canvas/Canvas'
+import Room from '../Room/Room'
+import RoomList from '../RoomList/RoomList'
 import Login from '../Login/Login'
 import Singup from '../Signup/Signup'
 
@@ -68,8 +70,10 @@ class App extends React.Component {
     return (
       <div className="App">
         <nav className="navbar-container">
-          <h2>Home</h2>
-          <span>Login</span>
+          <div className="title-container">
+            <span>Pictionary</span>
+          </div>
+          <div className="links-container">
             {!this.state.isLoggedIn && (
               <Link to="/login" className="nav-buttons">
                 Login
@@ -92,14 +96,17 @@ class App extends React.Component {
                 Logout
               </Link>
             )}
+          </div>
+          
         </nav>
         {/* <Canvas /> */}
 
         <Switch>
           {this.state.isLoggedIn ? <Route path="/" exact render={(props) => <Login handleLogin={this.handleLogin} isLoggedIn={this.state.isLoggedIn} {...props} />} />: 
-          <Route path="/" exact render={(props) => <Redirect to="/room" {...props}/> } />}
+          <Route path="/" exact render={(props) => <Redirect to="/roomlist" {...props}/> } />}
           <Route path="/" exact redirect={(props) => <Redirect to="/login" {...props}/> } />
-          <Route path="/room" render={(props) => <Canvas username={this.state.username} {...props}/>} />
+          <Route path="/room/:id" render={(props) => <Room username={this.state.username} {...props}/>} />
+          <Route path="/roomlist" render={(props) => <RoomList username={this.state.username} {...props}/>} />
           <Route path="/signup" render={(props) => <Singup handleSignup={this.handleSignup} {...props} />}  />
           <Route path="/login" render={(props) => <Login handleLogin={this.handleLogin} {...props} />}  />
         </Switch>
