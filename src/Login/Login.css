@@ -1,0 +1,39 @@
+.login-container {
+    position:absolute; /*it can be fixed too*/
+    left:0; right:0;
+    top:0; bottom:0;
+    margin:auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 30vw;
+    max-height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form label {
+    margin: 0.5rem 0;
+}
+
+
+.submit {
+    margin: 1rem 0;
+    width: 30%;
+    align-self: center;
+    background-color: #00A6FB;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+.login-signup {
+    margin: 1rem 0;
+}

@@ -70,30 +70,31 @@ class App extends React.Component {
     return (
       <div className="App">
         <nav className="navbar-container">
-          <div className="title-container">
-            <span>Pictionary</span>
+          <div className="nav-title-container">
+          <i class="fas fa-paint-brush"></i>
+            <span className="nav-title">Totally Not Pictionary</span>
           </div>
           <div className="links-container">
             {!this.state.isLoggedIn && (
               <Link to="/login" className="nav-buttons">
-                Login
+                LOGIN
               </Link>
             )}
             {!this.state.isLoggedIn && (
               <Link to="/signup" className="nav-buttons">
-                Signup
+                SIGNUP
               </Link>
             )}
             {this.state.isLoggedIn && (
               <Link to="/user">
                 <span className="nav-greeting">
-                  {"Hello, " + this.state.username}
+                  {"HELLO, " + this.state.username}
                 </span>
               </Link>
             )}
             {this.state.isLoggedIn && (
               <Link onClick={this.handleLogout} to="/" className="nav-buttons">
-                Logout
+                LOGOUT
               </Link>
             )}
           </div>
@@ -102,7 +103,7 @@ class App extends React.Component {
         {/* <Canvas /> */}
 
         <Switch>
-          {this.state.isLoggedIn ? <Route path="/" exact render={(props) => <Login handleLogin={this.handleLogin} isLoggedIn={this.state.isLoggedIn} {...props} />} />: 
+          {!this.state.isLoggedIn ? <Route path="/" exact render={(props) => <Login handleLogin={this.handleLogin} isLoggedIn={this.state.isLoggedIn} {...props} />} />: 
           <Route path="/" exact render={(props) => <Redirect to="/roomlist" {...props}/> } />}
           <Route path="/" exact redirect={(props) => <Redirect to="/login" {...props}/> } />
           <Route path="/room/:id" render={(props) => <Room username={this.state.username} {...props}/>} />

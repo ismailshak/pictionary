@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import './Login.css'
 
 export default class Login extends Component {
     constructor() {
@@ -28,9 +29,9 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div>
+            <div className="login-container">
                 {this.state.isValid ? "" : <p>Incorrect</p>}
-                <form onSubmit={this.compileForm}>
+                <form className="login-form" onSubmit={this.compileForm}>
                     <label>
                         Username:
                         <input type="text" name="username"/>
@@ -39,9 +40,9 @@ export default class Login extends Component {
                         Password:
                         <input type="password" name="password"/>
                     </label>
-                    <input type="submit" value="Login" />
+                    <input className="submit" type="submit" value="Login" />
                 </form>
-                <span>Not a member? <Link to="/signup">Sign up!</Link></span>
+                <span className="login-signup">Not a member? <Link className="to-signup" to="/signup">Sign up!</Link></span>
             </div>
         )
     }

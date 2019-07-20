@@ -1,11 +1,48 @@
 .App {
   text-align: center;
+  /* background-color: yellow; */
 }
 
+
+.nav-buttons {
+  /* background-color: #00A6FB; */
+  color: black;
+  padding: 0.2rem 0.5rem;
+  /* border: 1px solid black; */
+  border-radius: 10px;
+}
 
 .navbar-container {
   display: flex;
   justify-content: space-between;
+  /* background-color: #003680; */
+  border-bottom: 0.5px solid black;
+  align-items: center;
+  /* color: white; */
+  font-family: 'Darker Grotesque', sans-serif;
+  font-size: 1.3rem;
+}
+
+.nav-greeting {
+  align-self: center;
+}
+
+.fa-paint-brush {
+  font-size: 1rem;
+  align-self: center;
+  margin: 0 0.4rem 0 1rem;
+}
+
+.nav-title-container {
+  display: flex;
+  justify-content: center;
+}
+
+.nav-title {
+  font-family: 'Indie Flower', cursive;
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0.5rem;
 }
 
 .links-container {
