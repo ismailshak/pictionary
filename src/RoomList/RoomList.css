@@ -1,0 +1,19 @@
+.error-message {
+    color: red;
+}
+
+.roomlist-prompt-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.roomlist-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.number-input {
+    max-width: 75%;
+    min-width: 75%;
+}

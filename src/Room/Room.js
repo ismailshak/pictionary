@@ -29,6 +29,9 @@ export default class Room extends Component {
               winner: data.winner,
               word: data.word
             })
+            axios.put(url+'edit/'+this.state.room, {active: false})
+            .then(res => {})
+            .catch(err => console.log(err))
           })
           // k
         socket.on('users', data => {
@@ -38,7 +41,7 @@ export default class Room extends Component {
         })
 
         socket.on('clearInstructions', () => {
-            const roomInstructions = document.querySelector('.room-instruction-screen');
+            const roomInstructions = document.querySelector('.room-instruction-screen-container');
             // console.log(roomInstructions)
             roomInstructions.style.display = "none";
             console.log('cleared')
@@ -58,7 +61,7 @@ export default class Room extends Component {
         })
         axios.get(url + this.props.match.params.id)
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 this.setState({
                     name: res.data.name,
                     creator: res.data.creator
@@ -83,8 +86,11 @@ export default class Room extends Component {
             begin: true,
         })
         socket.emit('clearInstructions')
-        const roomInstructions = document.querySelector('.room-instruction-screen');
+        const roomInstructions = document.querySelector('.room-instruction-screen-container');
         roomInstructions.style.display = "none";
+        axios.put(url+'edit/'+this.state.room, {active: true})
+            .then(res => {})
+            .catch(err => console.log(err))
     }
 
     render() {
@@ -92,18 +98,23 @@ export default class Room extends Component {
             <div className="current-room-container">
                 <span className="room-name">{`Room ${this.state.name}`}</span>
                 {this.state.winner ? <span className="winner-message">{this.state.winner} wins! The word was {this.state.word}</span> : ""}
+                <div className="room-instruction-screen-container">
                 {this.state.creator === this.props.username ?
-                <div className="room-instruction-screen">
-                    <div>
-                        When everyone joins, hit start to begin.
-                        This will pick who gets to draw and what the word is.
-                        Room number: {this.state.room}
-                    </div>
-                    <button onClick={this.beginGame}>Start</button>
-                    <span><i className="fas fa-user-check"></i> {this.state.playerCount}</span>
+                
+                    <div className="room-instruction-screen">
+                        <span>
+                            When everyone joins, hit start to begin.
+                            This will pick who gets to draw and what the word is.
+                        </span>
+                        <span> Room number: {this.state.room}</span>
+                        <input type="submit" className="submit" onClick={this.beginGame} value="Start"/>
+                        <span><i className="fas fa-user-check"></i> {this.state.playerCount}</span>
+                    
+                    
                 </div> : 
                 <div className="room-instruction-screen">Waiting for host</div>
                 }
+                </div>
                <Canvas room={this.props.match.params.id} username={this.props.username}/>
             </div>
         )

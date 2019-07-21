@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Modal from "react-modal";
+import './RoomList.css'
 
 const url = "http://localhost:8080/api/rooms/"
 
@@ -26,6 +27,7 @@ export default class RoomList extends Component {
         this.state = {
             rooms: [],
             modalIsOpen: false,
+            errorMessage: ""
         }
     }
 
@@ -72,10 +74,11 @@ export default class RoomList extends Component {
                 this.props.history.push("/room/"+res.data._id)
             })
             .catch(err => {
+                console.log(err)
                 this.setState({
                     errorMessage: "Room not found",
                 })
-                console.log(err)
+                // console.log(err)
             })
     }
 
@@ -89,14 +92,15 @@ export default class RoomList extends Component {
                     })}
                 </div> */}
 
-                <div>
+                <div className="roomlist-prompt-container">
+                    <span className="error-message">{this.state.errorMessage}</span>
                     <span>Enter room number: </span>
-                    <form onSubmit={this.findRoom}>
-                        <input type="text" name="number"/>
-                        <input type="submit" value="Join Room" />
+                    <form onSubmit={this.findRoom} className="roomlist-form">
+                        <input className="number-input" type="text" name="number"/>
+                        <input className="submit" type="submit" value="Join Room" />
                     </form>
                     <span>Or create a room!</span>
-                    <button onClick={this.openModal}>Create Room</button>
+                    <button className="submit" onClick={this.openModal}>Create Room</button>
                 </div>
 
                 <Modal
@@ -110,7 +114,7 @@ export default class RoomList extends Component {
                             Room Name:
                             <input type="text" name="name"/>
                         </label>
-                        <input type="submit" value="Create"/>
+                        <input className="submit" type="submit" value="Create"/>
                         <label>
                            Once you hit create, the game will start in 30s! Make sure your friends are ready!
                         </label>
