@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Modal from "react-modal";
 
-const url = "http://localhost:8080/api/rooms"
+const url = "http://localhost:8080/api/rooms/"
 
 const customStyles = {
     content: {
@@ -42,7 +42,7 @@ export default class RoomList extends Component {
 
     createRoom = e => {
         e.preventDefault()
-        axios.post(url+'/create', {name: e.target.name.value, creator: this.props.username})
+        axios.post(url+'create', {name: e.target.name.value, creator: this.props.username})
             .then(res => {
                 console.log(res)
                 let newRoomList = [...this.state.rooms]
@@ -61,18 +61,42 @@ export default class RoomList extends Component {
         this.setState({ modalIsOpen: true });
       };
     
-      closeModal = () => {
+    closeModal = () => {
         this.setState({ modalIsOpen: false });
-      };
+    };
+
+    findRoom = e => {
+        e.preventDefault()
+        axios.get(url + e.target.number.value)
+            .then(res => {
+                this.props.history.push("/room/"+res.data._id)
+            })
+            .catch(err => {
+                this.setState({
+                    errorMessage: "Room not found",
+                })
+                console.log(err)
+            })
+    }
 
     render() {
         return (
             <div className="roomlist-page-container">
-                <button onClick={this.openModal}>Create Room</button>
+                {/* {
                 <div className="rooms-container">
                     {this.state.rooms.map((room, index) => {
                         return <Link key={index} to={"/room/"+room._id}><div key={index} className="room-div">{room.name}</div></Link>
                     })}
+                </div> */}
+
+                <div>
+                    <span>Enter room number: </span>
+                    <form onSubmit={this.findRoom}>
+                        <input type="text" name="number"/>
+                        <input type="submit" value="Join Room" />
+                    </form>
+                    <span>Or create a room!</span>
+                    <button onClick={this.openModal}>Create Room</button>
                 </div>
 
                 <Modal

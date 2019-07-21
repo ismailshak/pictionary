@@ -58,6 +58,10 @@ class App extends React.Component {
     this.props.history.push("/login");
   };
 
+  goToHome = () => {
+    this.props.history.push("/")
+  }
+
   componentDidMount() {
     if(this.state.username) {
       this.setState({
@@ -70,8 +74,8 @@ class App extends React.Component {
     return (
       <div className="App">
         <nav className="navbar-container">
-          <div className="nav-title-container">
-          <i class="fas fa-paint-brush"></i>
+          <div onClick={this.goToHome} className="nav-title-container">
+            <i className="fas fa-paint-brush"></i>
             <span className="nav-title">Totally Not Pictionary</span>
           </div>
           <div className="links-container">
@@ -111,6 +115,21 @@ class App extends React.Component {
           <Route path="/signup" render={(props) => <Singup handleSignup={this.handleSignup} {...props} />}  />
           <Route path="/login" render={(props) => <Login handleLogin={this.handleLogin} {...props} />}  />
         </Switch>
+
+        {/* <div class="area" >
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+        </div > */}
       </div>
     )
   }

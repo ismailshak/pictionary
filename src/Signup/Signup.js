@@ -28,8 +28,8 @@ export default class Signup extends Component {
       };
     render() {
         return (
-            <div>
-                <form onSubmit={this.compileForm}>
+            <div className="login-container">
+                <form className="login-form"onSubmit={this.compileForm}>
                     <label>
                         Username:
                         <input type="text" name="username"/>
@@ -42,7 +42,7 @@ export default class Signup extends Component {
                         Confirm Password:
                         <input type="password" name="confirmPassword"/>
                     </label>
-                    <input type="submit" value="Signup" />
+                    <input class="submit" type="submit" value="Signup" />
                 </form>
             </div>
         )

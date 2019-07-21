@@ -97,6 +97,7 @@ export default class Room extends Component {
                     <div>
                         When everyone joins, hit start to begin.
                         This will pick who gets to draw and what the word is.
+                        Room number: {this.state.room}
                     </div>
                     <button onClick={this.beginGame}>Start</button>
                     <span><i className="fas fa-user-check"></i> {this.state.playerCount}</span>
