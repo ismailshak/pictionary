@@ -8,7 +8,7 @@ import RoomList from '../RoomList/RoomList'
 import Login from '../Login/Login'
 import Singup from '../Signup/Signup'
 
-const url = "http://localhost:8080"
+const url = "https://totallynotpictionary.herokuapp.com"
 
 class App extends React.Component {
   constructor() {

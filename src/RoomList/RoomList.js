@@ -4,7 +4,7 @@ import axios from 'axios'
 import Modal from "react-modal";
 import './RoomList.css'
 
-const url = "http://localhost:8080/api/rooms/"
+const url = "https://totallynotpictionary.herokuapp.com/api/rooms/"
 
 const customStyles = {
     content: {
