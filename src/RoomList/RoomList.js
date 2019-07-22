@@ -4,7 +4,8 @@ import axios from 'axios'
 import Modal from "react-modal";
 import './RoomList.css'
 
-const url = "https://totallynotpictionary.herokuapp.com/api/rooms/"
+// const currentURL = "http://totallynotpictionary.herokuapp.com/api/rooms"
+const currentURL = "http:/localhost:8080/api/rooms/"
 
 const customStyles = {
     content: {
@@ -33,9 +34,8 @@ export default class RoomList extends Component {
     }
 
     componentDidMount() {
-        axios.get(url)
+        axios.get(currentURL)
             .then(res => {
-            console.log(res.data)
             this.setState({
                 rooms: res.data
             })
@@ -45,9 +45,8 @@ export default class RoomList extends Component {
 
     createRoom = e => {
         e.preventDefault()
-        axios.post(url+'create', {name: e.target.name.value, creator: this.props.username})
+        axios.post('http://localhost:8080/api/rooms/create', {name: e.target.name.value, creator: this.props.username})
             .then(res => {
-                console.log(res)
                 let newRoomList = [...this.state.rooms]
                 newRoomList.push(res.data)
                 this.setState({
@@ -58,6 +57,7 @@ export default class RoomList extends Component {
             .then((room) => {
                 this.props.history.push('/room/'+room._id)
             })
+            .catch(err => console.log(err))
     }
 
     openModal = () => {
@@ -70,7 +70,7 @@ export default class RoomList extends Component {
 
     findRoom = e => {
         e.preventDefault()
-        axios.get(url + e.target.number.value)
+        axios.get('http://localhost:8080/api/rooms/' + e.target.number.value)
             .then(res => {
                 this.props.history.push("/room/"+res.data._id)
             })

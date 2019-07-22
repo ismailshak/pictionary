@@ -6,3 +6,11 @@ canvas {
     background-color: white;
 }
 
+
+.word-to-draw {
+    position: absolute;
+    z-index: 500;
+    margin: 1rem;
+    display: none;
+    font-weight: bolder
+}

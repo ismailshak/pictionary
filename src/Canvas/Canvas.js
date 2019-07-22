@@ -3,7 +3,8 @@ import io from "socket.io-client";
 import Prompt from '../Prompt/Prompt';
 import './Canvas.css'
 
-const socket = io('https://totallynotpictionary.herokuapp.com/');
+// const socket = io('https://totallynotpictionary.herokuapp.com/');
+const socket = io('localhost:8080');
 
 export default class Canvas extends Component {
   constructor() {
@@ -36,18 +37,19 @@ export default class Canvas extends Component {
     })
 
     socket.on('start', data => {
-      console.log('start')
       if(data.room === this.state.room) {
-        console.log(data)
         if(data.drawer !== this.props.username) {
           this.setState({
             drawer: false,
             word: data.word,
           })
         } else {
+          console.log()
             this.setState({
+              drawer: true,
               word: data.word
             })
+            document.querySelector('.word-to-draw').style.display = "block";
           }
         }
       })
@@ -133,10 +135,10 @@ export default class Canvas extends Component {
     
   }
 
-  shouldComponentUpdate(nextProp, nextState) {
-    // if drawer is the same
-    return this.state.drawer !== nextState.drawer;
-  }
+  // shouldComponentUpdate(nextProp, nextState) {
+  //   // if drawer is the same
+  //   return this.state.drawer !== nextState.drawer;
+  // }
 
   drawLine = (x0, y0, x1, y1, color, emit, force) => {
 
@@ -254,11 +256,8 @@ export default class Canvas extends Component {
 
   handleGuess = (str) => {
     if(str === this.state.word) {
-      console.log("correct")
       socket.emit('correct', {word: this.state.word, winner: this.state.username})
-    } else {
-      console.log("incorrect")
-    }
+    } 
   }
 
   render() {
@@ -266,6 +265,7 @@ export default class Canvas extends Component {
     
     return (
       <div className="canvas-container">
+        <span className="word-to-draw">word: {this.state.word}</span>
         <canvas
           width={window.innerWidth}
           height={window.innerHeight-65}
