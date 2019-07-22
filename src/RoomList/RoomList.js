@@ -33,16 +33,6 @@ export default class RoomList extends Component {
         }
     }
 
-    componentDidMount() {
-        // axios.get(currentURL)
-        //     .then(res => {
-        //     this.setState({
-        //         rooms: res.data
-        //     })
-        // })
-        // .catch(err => console.log(err))
-    }
-
     createRoom = e => {
         e.preventDefault()
         axios.post('http://totallynotpictionary.herokuapp.com/api/rooms/create', {name: e.target.name.value, creator: this.props.username})
@@ -79,20 +69,12 @@ export default class RoomList extends Component {
                 this.setState({
                     errorMessage: "Room not found",
                 })
-                // console.log(err)
             })
     }
 
     render() {
         return (
             <div className="roomlist-page-container">
-                {/* {
-                <div className="rooms-container">
-                    {this.state.rooms.map((room, index) => {
-                        return <Link key={index} to={"/room/"+room._id}><div key={index} className="room-div">{room.name}</div></Link>
-                    })}
-                </div> */}
-
                 <div className="roomlist-prompt-container">
                     <span className="error-message">{this.state.errorMessage}</span>
                     <span>Enter room number: </span>

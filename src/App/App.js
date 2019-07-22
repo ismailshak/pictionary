@@ -2,7 +2,6 @@ import React from 'react';
 import {Link, Route, Switch, Redirect} from 'react-router-dom'
 import axios from 'axios'
 import './App.css';
-// import Canvas from '../Canvas/Canvas'
 import Room from '../Room/Room'
 import RoomList from '../RoomList/RoomList'
 import Login from '../Login/Login'
@@ -104,7 +103,6 @@ class App extends React.Component {
           </div>
           
         </nav>
-        {/* <Canvas /> */}
 
         <Switch>
           {!this.state.isLoggedIn ? <Route path="/" exact render={(props) => <Login handleLogin={this.handleLogin} isLoggedIn={this.state.isLoggedIn} {...props} />} />: 
@@ -115,21 +113,6 @@ class App extends React.Component {
           <Route path="/signup" render={(props) => <Singup handleSignup={this.handleSignup} {...props} />}  />
           <Route path="/login" render={(props) => <Login handleLogin={this.handleLogin} {...props} />}  />
         </Switch>
-
-        {/* <div class="area" >
-            <ul class="circles">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-            </ul>
-        </div > */}
       </div>
     )
   }

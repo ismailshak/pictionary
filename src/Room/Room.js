@@ -24,6 +24,7 @@ export default class Room extends Component {
             creator: null,
         }
 
+        // If someone won the game, alert the rest
         socket.on('winner', data => {
             console.log("the winner is " + data.winner + " the word was " + data.word)
             this.setState({
@@ -33,37 +34,33 @@ export default class Room extends Component {
             axios.put(currentURL+'edit/'+this.state.room, {active: false})
             .then(res => {})
             .catch(err => console.log(err))
-
-            // document.querySelector('.winner-message-container').style.display = "block"
           })
-          // k
+
+        // Keeps track of how many players joined current room, for the host to see
         socket.on('users', data => {
             this.setState({
                 playerCount: data
             })
         })
 
+        // Clears instructions screen that appear pre-game
         socket.on('clearInstructions', () => {
             const roomInstructions = document.querySelector('.room-instruction-screen-container');
-            // console.log(roomInstructions)
             roomInstructions.style.display = "none";
         })
 
-
+        // Tells the server a room was just created
         socket.emit('roomCreated', {room: this.props.match.params.id, user: this.props.username})
 
     }
 
 
     componentDidMount() {
-
-       
         this.setState({
             room: this.props.match.params.id
         })
         axios.get(currentURL + this.props.match.params.id)
             .then(res => {
-                // console.log(res.data)
                 this.setState({
                     name: res.data.name,
                     creator: res.data.creator
@@ -76,8 +73,10 @@ export default class Room extends Component {
     }
 
     
-    componentCleanup = () => { // this will hold the cleanup code
-        // whatever you want to do when the component is unmounted or page refreshes
+    componentCleanup = () => { 
+        // this will hold the cleanup code
+        // whatever I want to do when the component is unmounted or page refreshes
+        // in TODO form right now, doesn't do anything
         socket.emit('leavingRoom', this.state.room);
     }
 
@@ -99,10 +98,7 @@ export default class Room extends Component {
         return (
             <div className="current-room-container">
                 <span className="room-name">{`Room: ${this.state.name}`}</span>
-                {/* <div className="winner-message-container"> */}
                 {this.state.winner ? <span className="winner-message">{this.state.winner} wins! The word was {this.state.word}<br /><Link to="/">Home</Link></span> : ""}
-                {/* </div> */}
-                
                 <div className="room-instruction-screen-container">
                 {this.state.creator === this.props.username ?
                 

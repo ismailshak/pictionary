@@ -123,15 +123,7 @@ export default class Canvas extends Component {
       this.canvas.current.removeEventListener('mouseup', this.onMouseUp)
       this.canvas.current.removeEventListener('mousedown', this.onMouseDown)
       this.canvas.current.removeEventListener('mousemove', this.onMouseMove)
-    } else {
-      // this.canvas.current.addEventListener('mouseup', this.onMouseUp, false)
-      // this.canvas.current.addEventListener('mousedown', this.onMouseDown, false)
-      // this.canvas.current.addEventListener(
-      //   "mousemove",
-      //   this.throttle(this.onMouseMove, 5),
-      //   false
-      // )
-    }
+    } 
     
   }
 
@@ -169,14 +161,6 @@ export default class Canvas extends Component {
         room: this.state.room,
         force: force
       })};
-    // this.setState(() => {
-      
-
-    //     return {
-    //       cleared: false
-    //     };
-    //   }
-    // });
   };
 
   onMouseDown = e => {
