@@ -3,14 +3,6 @@
 }
 
 
-.winner-message {
-    position: absolute;
-    z-index: 500;
-    top: 50%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-}
 
 .room-name {
     z-index: 500;

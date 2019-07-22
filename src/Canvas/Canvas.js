@@ -142,8 +142,8 @@ export default class Canvas extends Component {
 
     let context = this.state.canvas.getContext("2d");
     context.beginPath();
-    context.moveTo(x0, y0-this.offset);
-    context.lineTo(x1, y1-this.offset);
+    context.moveTo(x0, y0-65);
+    context.lineTo(x1, y1-65);
     context.strokeStyle = color;
     context.lineWidth = 2;
     // if (force) {
@@ -268,7 +268,7 @@ export default class Canvas extends Component {
       <div className="canvas-container">
         <canvas
           width={window.innerWidth}
-          height={window.innerHeight-this.offset}
+          height={window.innerHeight-65}
           className="canvas"
           ref={this.canvas}
         />

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Canvas from '../Canvas/Canvas'
 import io from "socket.io-client";
@@ -21,8 +22,6 @@ export default class Room extends Component {
             creator: null,
         }
 
-        
-
         socket.on('winner', data => {
             console.log("the winner is " + data.winner + " the word was " + data.word)
             this.setState({
@@ -32,6 +31,8 @@ export default class Room extends Component {
             axios.put(url+'edit/'+this.state.room, {active: false})
             .then(res => {})
             .catch(err => console.log(err))
+
+            // document.querySelector('.winner-message-container').style.display = "block"
           })
           // k
         socket.on('users', data => {
@@ -96,8 +97,11 @@ export default class Room extends Component {
     render() {
         return (
             <div className="current-room-container">
-                <span className="room-name">{`Room ${this.state.name}`}</span>
-                {this.state.winner ? <span className="winner-message">{this.state.winner} wins! The word was {this.state.word}</span> : ""}
+                <span className="room-name">{`Room: ${this.state.name}`}</span>
+                {/* <div className="winner-message-container"> */}
+                {this.state.winner ? <span className="winner-message">{this.state.winner} wins! The word was {this.state.word}<br /><Link to="/">Home</Link></span> : ""}
+                {/* </div> */}
+                
                 <div className="room-instruction-screen-container">
                 {this.state.creator === this.props.username ?
                 

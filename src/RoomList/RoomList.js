@@ -16,7 +16,8 @@ const customStyles = {
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
       height: "40%",
-      width: "40%"
+      width: "40%",
+      backgroundColor: "white"
     }
   };
 
@@ -109,15 +110,12 @@ export default class RoomList extends Component {
                     onRequestClose={this.closeModal}
                     style={customStyles}
                 >
-                    <form onSubmit={this.createRoom}>
+                    <form onSubmit={this.createRoom} className="roomlist-form">
                         <label>
                             Room Name:
                             <input type="text" name="name"/>
                         </label>
                         <input className="submit" type="submit" value="Create"/>
-                        <label>
-                           Once you hit create, the game will start in 30s! Make sure your friends are ready!
-                        </label>
                         <label>
                            You'll be automatically redirected to your new room
                         </label>
