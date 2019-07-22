@@ -8,8 +8,8 @@ import RoomList from '../RoomList/RoomList'
 import Login from '../Login/Login'
 import Singup from '../Signup/Signup'
 
-// const currentURL = "https://totallynotpictionary.herokuapp.com"
-const currentURL = "http://localhost:8080"
+const currentURL = "https://totallynotpictionary.herokuapp.com"
+// const currentURL = "http://localhost:8080"
 
 class App extends React.Component {
   constructor() {
@@ -24,12 +24,13 @@ class App extends React.Component {
     axios
       .post(currentURL + "/api/users/create", obj)
       .then(res => {
-        sessionStorage.username = res.data.username;
+        sessionStorage.username = res.data;
         this.setState({
-          username: res.data.username
+          username: res.data,
+          isLoggedIn: true
         });
       })
-      .then(_ => {})
+      .then(_ => {this.props.history.push("/roomlist");})
       .catch(err => console.log(err));
   };
 
@@ -42,6 +43,7 @@ class App extends React.Component {
           isLoggedIn: true,
           username: res.data
         });
+        this.props.history.push("/roomlist");
       })
       .catch(err => console.log(err));
   };

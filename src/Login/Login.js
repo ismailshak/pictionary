@@ -22,7 +22,6 @@ export default class Login extends Component {
           };
           this.props.handleLogin(returnedObj);
           this.setState({ isValid: true });
-          this.props.history.push("/roomlist");
         }
     
     }

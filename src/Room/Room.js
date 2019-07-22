@@ -5,11 +5,11 @@ import Canvas from '../Canvas/Canvas'
 import io from "socket.io-client";
 import './Room.css'
 
-// const currentURL = "https://totallynotpictionary.herokuapp.com/api/rooms/"
-const currentURL = "http://localhost:8080/api/rooms/"
+const currentURL = "https://totallynotpictionary.herokuapp.com/api/rooms/"
+// const currentURL = "http://localhost:8080/api/rooms/"
 
-// const socket = io('https://totallynotpictionary.herokuapp.com/');
-const socket = io('localhost:8080/');
+const socket = io('https://totallynotpictionary.herokuapp.com/');
+// const socket = io('localhost:8080/');
 
 export default class Room extends Component {
     constructor(props){

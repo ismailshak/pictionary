@@ -3,8 +3,8 @@ import io from "socket.io-client";
 import Prompt from '../Prompt/Prompt';
 import './Canvas.css'
 
-// const socket = io('https://totallynotpictionary.herokuapp.com/');
-const socket = io('localhost:8080');
+const socket = io('https://totallynotpictionary.herokuapp.com/');
+// const socket = io('localhost:8080');
 
 export default class Canvas extends Component {
   constructor() {

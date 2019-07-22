@@ -23,7 +23,6 @@ export default class Signup extends Component {
 
           this.props.handleSignup(returnedObj);
           this.setState({ isValid: true });
-          this.props.history.push("/rooms");
         }
       };
     render() {

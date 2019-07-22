@@ -4,8 +4,8 @@ import axios from 'axios'
 import Modal from "react-modal";
 import './RoomList.css'
 
-// const currentURL = "http://totallynotpictionary.herokuapp.com/api/rooms"
-const currentURL = "http:/localhost:8080/api/rooms/"
+// const currentURL = "http://totallynotpictionary.herokuapp.com/api/rooms/"
+// const currentURL = "http:/localhost:8080/api/rooms/" 
 
 const customStyles = {
     content: {
@@ -34,18 +34,18 @@ export default class RoomList extends Component {
     }
 
     componentDidMount() {
-        axios.get(currentURL)
-            .then(res => {
-            this.setState({
-                rooms: res.data
-            })
-        })
-        .catch(err => console.log(err))
+        // axios.get(currentURL)
+        //     .then(res => {
+        //     this.setState({
+        //         rooms: res.data
+        //     })
+        // })
+        // .catch(err => console.log(err))
     }
 
     createRoom = e => {
         e.preventDefault()
-        axios.post('http://localhost:8080/api/rooms/create', {name: e.target.name.value, creator: this.props.username})
+        axios.post('http://totallynotpictionary.herokuapp.com/api/rooms/create', {name: e.target.name.value, creator: this.props.username})
             .then(res => {
                 let newRoomList = [...this.state.rooms]
                 newRoomList.push(res.data)
@@ -70,7 +70,7 @@ export default class RoomList extends Component {
 
     findRoom = e => {
         e.preventDefault()
-        axios.get('http://localhost:8080/api/rooms/' + e.target.number.value)
+        axios.get('http://totallynotpictionary.herokuapp.com/api/rooms/' + e.target.number.value)
             .then(res => {
                 this.props.history.push("/room/"+res.data._id)
             })
