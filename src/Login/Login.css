@@ -39,3 +39,9 @@
 .login-signup {
     margin: 1rem 0;
 }
+
+@media all and (max-width: 480px) {
+    .login-container {
+      width: 70vw;
+    }
+  }

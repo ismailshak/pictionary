@@ -36,3 +36,9 @@
     border: 1px solid black;
     border-radius: 50px;
 }
+
+@media all and (max-width: 480px) {
+    .roomlist-prompt-container {
+      width: 70vw;
+    }
+  }

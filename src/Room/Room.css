@@ -25,8 +25,7 @@
 
 .room-instruction-screen {
     background-color: white;
-    max-width: 40vw;
-    min-width: 40vw;
+    width: 40vw;
     min-height: 50vh;
     border-radius: 5px;
     display: flex;
@@ -49,3 +48,9 @@
     justify-content: space-around;
     background-color: white;
 }
+
+@media all and (max-width: 480px) {
+    .room-instruction-screen {
+      width: 75vw;
+    }
+  }
